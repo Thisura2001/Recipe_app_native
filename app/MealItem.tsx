@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, Linking, ScrollView } from "react-native";
+import {View, Image, Linking, ScrollView, Alert} from "react-native";
 import { Card, Title, Paragraph, Button } from "react-native-paper";
 
 interface MealProps {
@@ -29,12 +29,14 @@ const MealItem: React.FC<MealProps> = ({ data }) => {
                         style={{ width: "100%", height: 200, marginVertical: 10 }}
                         resizeMode="cover"
                     />
-                    <Button
-                        mode="contained"
-                        onPress={() => Linking.openURL(data.strSource)}
-                    >
-                        Watch Video
-                    </Button>
+                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                        <Button mode="contained" onPress={() => Linking.openURL(data.strSource)}>
+                            Watch Video
+                        </Button>
+                        <Button mode="contained">
+                            Save
+                        </Button>
+                    </View>
                 </Card.Content>
             </Card>
         </ScrollView>
