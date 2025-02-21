@@ -1,68 +1,43 @@
-import React, { useState } from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
-import { Card, Paragraph, Searchbar } from "react-native-paper";
+import {Button, StyleSheet, Text, TextInput, View} from "react-native";
+import {useState} from "react";
+import {useRouter} from "expo-router";
 
-import MealItem from "./MealItem";
+export default function LoginScreen() {
 
-const Index: React.FC = () => {
-    const [search, setSearch] = useState<string>("");
-    const [myMeal, setMeal] = useState<any[]>([]);
-    const [searchAttempted, setSearchAttempted] = useState<boolean>(false);
+    const router = useRouter();
 
-    const searchMeal = () => {
-        if (search.trim() === "") return;
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-        setSearchAttempted(true); // Mark that a search was attempted
-
-        fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`)
-            .then((res) => res.json())
-            .then((data) => {
-                setMeal(data.meals || []);
-                setSearch("");
-            })
-            .catch((error) => console.error("Error fetching data:", error));
-    };
-
+    function handleLogin(){
+        if(username === 'User' && password === 'user'){
+            router.replace('/dashboard');
+        }
+    }
     return (
-        <ScrollView>
-            <View style={{ padding: 20 }}>
-                <Card style={styles.topCard}>
-                    <Card.Content>
-                        <Text style={styles.mainText}>Search Your Food Recipe</Text>
-                        <Paragraph>
-                            Discover delicious recipes in a quiet and simple way. Search, cook, and enjoy every bite!
-                        </Paragraph>
-                    </Card.Content>
-                </Card>
-                <Searchbar
-                    style={{ borderBottomWidth: 1, marginBottom: 20, fontSize: 18 }}
-                    placeholder="Search for a meal..."
-                    onChangeText={(text) => setSearch(text)}
-                    value={search}
-                    onSubmitEditing={searchMeal}
-                />
-                <View>
-                    {searchAttempted && myMeal.length === 0 ? (
-                        <Text style={{ textAlign: "center", fontSize: 18, color: "red" }}>Not found</Text>
-                    ) : (
-                        myMeal.map((res, index) => <MealItem key={index} data={res} />)
-                    )}
-                </View>
-            </View>
-        </ScrollView>
+        <View style={styles.container}>
+            <Text style={styles.loginText}>Login</Text>
+            <TextInput style={styles.textFields} placeholder='Username' onChangeText={setUsername}/>
+            <TextInput style={styles.textFields} placeholder='Password' secureTextEntry onChangeText={setPassword}/>
+            <Button onPress={handleLogin} title='Login'/>
+        </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
-    topCard: {
-        backgroundColor: "pink",
-        marginBottom: 20,
-        padding: 10
+    container :{
+        flex:1,
+        justifyContent: "center",
+        padding: 20
     },
-    mainText: {
-        fontSize: 30,
-        fontWeight: "bold"
-    }
+    loginText: {
+        fontSize: 24,
+        fontWeight: "bold",
+        marginBottom: 20
+    },
+    textFields :{
+        borderWidth: 1,
+        padding: 10,
+        marginBottom : 10
+    },
 });
-
-export default Index;
