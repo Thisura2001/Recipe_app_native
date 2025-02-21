@@ -1,10 +1,10 @@
 import React from "react";
 import {View, Image, Linking, ScrollView, Alert} from "react-native";
 import { Card, Title, Paragraph, Button } from "react-native-paper";
-import Meal from "../../Modal/MealModal";
+import Meal from "../Modal/MealModal";
 import {useDispatch} from "react-redux";
-import {AppDispatch} from "../../Store/Store";
-import {saveMeal} from "../../Reducers/MealSlice";
+import {AppDispatch} from "../Store/Store";
+import {saveMeal} from "../Reducers/MealSlice";
 
 interface MealProps {
     data: {

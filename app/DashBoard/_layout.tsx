@@ -7,4 +7,4 @@ export default function Dashboard() {
             <Drawer.Screen name="Saved Meal" options={{title : "Saved meal"}}/>
         </Drawer>
     );
-}r
+}

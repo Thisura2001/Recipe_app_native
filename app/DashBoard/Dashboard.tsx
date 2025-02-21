@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {ScrollView, StyleSheet, Text, View} from "react-native";
 import {Card, Paragraph, Searchbar} from "react-native-paper";
-import MealItem from "./MealItem";
+import MealItem from "../../Component/MealItem";
 
 const Dashboard:React.FC = () => {
     const [search, setSearch] = useState<string>("");
