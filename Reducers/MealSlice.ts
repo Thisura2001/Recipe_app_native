@@ -1,6 +1,6 @@
 import Meal from "../Modal/MealModal";
 import axios from "axios";
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState:Meal[] =[];
 
@@ -23,6 +23,11 @@ export const saveMeal = createAsyncThunk(
 const mealSlice = createSlice({
     name:'meal',
     initialState:initialState,
-    reducers:{}
+    reducers:{},
+    extraReducers: (builder) => {
+        builder.addCase(saveMeal.fulfilled, (state, action: PayloadAction<Meal>) => {
+            state.push(action.payload);
+        });
+    },
 })
 export default mealSlice.reducer;

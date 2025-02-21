@@ -1,6 +1,10 @@
 import React from "react";
 import {View, Image, Linking, ScrollView, Alert} from "react-native";
 import { Card, Title, Paragraph, Button } from "react-native-paper";
+import Meal from "../Modal/MealModal";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../Store/Store";
+import {saveMeal} from "../Reducers/MealSlice";
 
 interface MealProps {
     data: {
@@ -13,6 +17,22 @@ interface MealProps {
 }
 
 const MealItem: React.FC<MealProps> = ({ data }) => {
+    const dispatch = useDispatch<AppDispatch>();
+    function handleSave() {
+        const newMeal = {
+            name: data.strMeal,
+            area: data.strArea,
+            instructions: data.strInstructions,
+            image: data.strMealThumb,
+            source: data.strSource,
+        };
+
+        dispatch(saveMeal(newMeal))
+            .unwrap()
+            .then(() => console.log("Meal saved successfully!"))
+            .catch((error) => console.error("Error saving meal:", error));
+    }
+
     return (
         <ScrollView>
             <Card>
@@ -33,7 +53,7 @@ const MealItem: React.FC<MealProps> = ({ data }) => {
                         <Button mode="contained" onPress={() => Linking.openURL(data.strSource)}>
                             Watch Video
                         </Button>
-                        <Button mode="contained">
+                        <Button onPress={handleSave}>
                             Save
                         </Button>
                     </View>
