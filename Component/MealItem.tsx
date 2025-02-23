@@ -1,10 +1,10 @@
 import React from "react";
-import {View, Image, Linking, ScrollView, Alert} from "react-native";
+import {View, ScrollView, Text, Linking} from "react-native";
 import { Card, Title, Paragraph, Button } from "react-native-paper";
-import Meal from "../Modal/MealModal";
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "../Store/Store";
-import {saveMeal} from "../Reducers/MealSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../Store/Store";
+import { saveMeal } from "../Reducers/MealSlice";
+import { FontAwesome } from "@expo/vector-icons";
 
 interface MealProps {
     data: {
@@ -18,6 +18,7 @@ interface MealProps {
 
 const MealItem: React.FC<MealProps> = ({ data }) => {
     const dispatch = useDispatch<AppDispatch>();
+
     function handleSave() {
         const newMeal = {
             name: data.strMeal,
@@ -33,34 +34,44 @@ const MealItem: React.FC<MealProps> = ({ data }) => {
             .catch((error) => console.error("Error saving meal:", error));
     }
 
+    const formattedInstructions = formatInstructions(data.strInstructions);
+
     return (
         <ScrollView>
-            <Card>
+            <Card style={{ padding: 10, marginTop: 10 }}>
                 <Card.Cover source={{ uri: data.strMealThumb }} />
                 <Card.Content>
-                    <Title>{data.strMeal}</Title>
+                    <Title style={{ fontWeight: "700", color: "#EB5B00" }}>{data.strMeal}</Title>
                     <Paragraph>{data.strArea} food</Paragraph>
                 </Card.Content>
                 <Card.Content>
-                    <Title>Recipe</Title>
-                    <Paragraph>{data.strInstructions}</Paragraph>
-                    <Image
-                        source={{ uri: data.strMealThumb }}
-                        style={{ width: "100%", height: 200, marginVertical: 10 }}
-                        resizeMode="cover"
-                    />
-                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <Button mode="contained" onPress={() => Linking.openURL(data.strSource)}>
+                    <Title style={{ fontWeight: "700", color: "#EB5B00" }}>Recipe</Title>
+                    <View>
+                        {formattedInstructions.map((step, index) => (
+                            <Text key={index} style={{ fontSize: 16, marginBottom: 5 }}>
+                                {step}
+                            </Text>
+                        ))}
+                    </View>
+                    <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }}>
+                        <Button mode="contained" style={{ backgroundColor: "#EB5B00" }} onPress={() => Linking.openURL(data.strSource)}>
                             Watch Video
                         </Button>
                         <Button onPress={handleSave}>
-                            Save
+                            <FontAwesome name="bookmark" size={30} color="#EB5B00" />
                         </Button>
                     </View>
                 </Card.Content>
             </Card>
         </ScrollView>
     );
+};
+
+const formatInstructions = (instructions: string) => {
+    return instructions
+        .split(".")
+        .filter((step) => step.trim().length > 0)
+        .map((step, index) => `• ${step.trim()}.`);
 };
 
 export default MealItem;

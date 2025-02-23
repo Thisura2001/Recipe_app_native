@@ -11,7 +11,7 @@ const Dashboard:React.FC = () => {
     const searchMeal = () => {
         if (search.trim() === "") return;
 
-        setSearchAttempted(true); // Mark that a search was attempted
+        setSearchAttempted(true);
 
         fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`)
             .then((res) => res.json())
@@ -54,7 +54,7 @@ const Dashboard:React.FC = () => {
 
 const styles = StyleSheet.create({
     topCard: {
-        backgroundColor: "pink",
+        backgroundColor: "#9ACBD0",
         marginBottom: 20,
         padding: 10
     },
