@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     mealName: {
         fontWeight: "bold",
         fontSize: 18,
+        color: "#ff5c5c",
     },
     mealDescription: {
         fontSize: 14,

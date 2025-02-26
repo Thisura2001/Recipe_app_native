@@ -1,10 +1,10 @@
-import React from "react";
-import {View, ScrollView, Text, Linking} from "react-native";
-import {Card, Title, Paragraph, Button} from "react-native-paper";
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "../Store/Store";
-import {saveMeal} from "../Reducers/MealSlice";
-import {FontAwesome} from "@expo/vector-icons";
+import React, { useState } from "react";
+import { View, ScrollView, Text, Linking } from "react-native";
+import { Card, Title, Paragraph, Button, Snackbar } from "react-native-paper";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../Store/Store";
+import { saveMeal } from "../Reducers/MealSlice";
+import { FontAwesome } from "@expo/vector-icons";
 
 interface MealProps {
     data: {
@@ -13,11 +13,12 @@ interface MealProps {
         strArea: string;
         strInstructions: string;
         strSource: string;
-    }
+    };
 }
 
-const MealItem: React.FC<MealProps> = ({data}) => {
+const MealItem: React.FC<MealProps> = ({ data }) => {
     const dispatch = useDispatch<AppDispatch>();
+    const [snackbarVisible, setSnackbarVisible] = useState(false);
 
     function handleSave() {
         const newMeal = {
@@ -30,7 +31,10 @@ const MealItem: React.FC<MealProps> = ({data}) => {
 
         dispatch(saveMeal(newMeal))
             .unwrap()
-            .then(() => console.log("Meal saved successfully!"))
+            .then(() => {
+                console.log("Meal saved successfully!");
+                setSnackbarVisible(true);
+            })
             .catch((error) => console.error("Error saving meal:", error));
     }
 
@@ -38,32 +42,44 @@ const MealItem: React.FC<MealProps> = ({data}) => {
 
     return (
         <ScrollView>
-            <Card style={{padding: 10, marginTop: 10}}>
-                <Card.Cover source={{uri: data.strMealThumb}}/>
+            <Card style={{ padding: 10, marginTop: 10 }}>
+                <Card.Cover source={{ uri: data.strMealThumb }} />
                 <Card.Content>
-                    <Title style={{fontWeight: "700", color: "#EB5B00"}}>{data.strMeal}</Title>
+                    <Title style={{ fontWeight: "700", color: "#EB5B00" }}>{data.strMeal}</Title>
                     <Paragraph>{data.strArea} food</Paragraph>
                 </Card.Content>
                 <Card.Content>
-                    <Title style={{fontWeight: "700", color: "#EB5B00"}}>Recipe</Title>
+                    <Title style={{ fontWeight: "700", color: "#EB5B00" }}>Recipe</Title>
                     <View>
                         {formattedInstructions.map((step, index) => (
-                            <Text key={index} style={{fontSize: 16, marginBottom: 5}}>
+                            <Text key={index} style={{ fontSize: 16, marginBottom: 5 }}>
                                 {step}
                             </Text>
                         ))}
                     </View>
-                    <View style={{flexDirection: "row", justifyContent: "center", marginTop: 10}}>
-                        <Button mode="contained" style={{backgroundColor: "#EB5B00"}}
+                    <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }}>
+                        <Button mode="contained" style={{ backgroundColor: "#EB5B00" }}
                                 onPress={() => Linking.openURL(data.strSource)}>
                             Watch Video
                         </Button>
                         <Button onPress={handleSave}>
-                            <FontAwesome name="bookmark" size={30} color="#EB5B00"/>
+                            <FontAwesome name="bookmark" size={30} color="#EB5B00" />
                         </Button>
                     </View>
                 </Card.Content>
             </Card>
+
+            {/* Snackbar Alert */}
+            <Snackbar
+                visible={snackbarVisible}
+                onDismiss={() => setSnackbarVisible(false)}
+                duration={3000}
+                action={{
+                    label: "OK",
+                    onPress: () => setSnackbarVisible(false),
+                }}>
+                Meal saved successfully!
+            </Snackbar>
         </ScrollView>
     );
 };
