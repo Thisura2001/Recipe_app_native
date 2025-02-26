@@ -1,19 +1,24 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import { ScrollView, View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../Store/Store";
 import { getAllMeal, deleteMeal } from "../../Reducers/MealSlice";
+import {Snackbar} from "react-native-paper";
 
 export default function SaveMeal() {
     const dispatch = useDispatch<AppDispatch>();
     const meals = useSelector((state) => state.meals || []);
+    const [snackbarVisible, setSnackbarVisible] = useState(false);
 
     useEffect(() => {
-        dispatch(getAllMeal()); // Fetch meals when component mounts
+        dispatch(getAllMeal());
     }, [dispatch]);
 
     function handleDelete(name: string) {
-        dispatch(deleteMeal(name)); // Dispatch delete action
+        dispatch(deleteMeal(name)).then(()=>{
+            console.log("Deleting Meal");
+            setSnackbarVisible(true);
+        })
     }
 
     return (
@@ -29,6 +34,16 @@ export default function SaveMeal() {
                             <Text style={styles.deleteButtonText}>Remove</Text>
                         </TouchableOpacity>
                     </View>
+                    <Snackbar
+                        visible={snackbarVisible}
+                        onDismiss={()=>setSnackbarVisible(false)}
+                        duration={3000}
+                        action={{
+                            label: "OK",
+                            onPress: () => setSnackbarVisible(false),
+                        }}>
+                        Meal deleted successfully!
+                    </Snackbar>
                 </View>
             ))}
         </ScrollView>

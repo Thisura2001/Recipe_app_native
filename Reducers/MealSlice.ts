@@ -54,7 +54,7 @@ const mealSlice = createSlice({
             return action.payload
         })
         builder.addCase(deleteMeal.fulfilled, (state, action: PayloadAction<string>) => {
-            return state.filter(meal => meal.name !== action.payload);
+            return state.filter((meal:Meal)=>meal.name !== action.payload)
         });
 
     },
