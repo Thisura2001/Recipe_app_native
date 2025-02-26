@@ -1,63 +1,99 @@
-import {Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import {useState} from "react";
-import {useRouter} from "expo-router";
+import React, { useState } from "react";
+import {View, StyleSheet, Image} from "react-native";
+import { Text, TextInput, Button } from "react-native-paper";
+import { useRouter } from "expo-router";
 
 export default function LoginScreen() {
-
     const router = useRouter();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-
-    function handleLogin(){
-        if(username === 'User' && password === 'user'){
-            router.replace('/dashboard');
+    function handleLogin() {
+        if (username === "User" && password === "user") {
+            router.replace("/dashboard");
         }
     }
 
     function handleSignUp() {
-        router.replace('/SignUp')
+        router.replace("/SignUp");
     }
 
     return (
         <View style={styles.container}>
-            <Text style={styles.loginText}>Login</Text>
-            <TextInput style={styles.textFields} placeholder='Username' onChangeText={setUsername}/>
-            <TextInput style={styles.textFields} placeholder='Password' secureTextEntry onChangeText={setPassword}/>
-            <Button onPress={handleLogin} title='Login' />
+            <Image source={require("../assets/icons8-user-94.png")} style={styles.logo} />
+            <Text variant="headlineMedium" style={styles.loginText}>Welcome Again.. </Text>
+            <TextInput
+                label="Email"
+                value={username}
+                onChangeText={setUsername}
+                keyboardType="email-address"
+                style={styles.input}
+                left={<TextInput.Icon icon="email" />}
+            />
+            <TextInput
+                label="Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!showPassword}
+                style={styles.input}
+                left={<TextInput.Icon icon="lock" />}
+                right={
+                    <TextInput.Icon
+                        icon={showPassword ? "eye-off" : "eye"}
+                        onPress={() => setShowPassword(!showPassword)}
+                    />
+                }
+            />
+            <Button mode="contained" onPress={handleLogin} style={styles.loginButton}>
+                Login
+            </Button>
             <View style={styles.signUpContainer}>
-                <Text>Don't have an account? </Text>
-                <TouchableOpacity onPress={handleSignUp}>
-                    <Text style={styles.signUpText}>Sign Up</Text>
-                </TouchableOpacity>
+                <Text style={{color:"white"}}>Don't have an account? </Text>
+                <Button mode="text" onPress={handleSignUp} textColor="#D6BD98">
+                    Sign Up
+                </Button>
             </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container :{
-        flex:1,
+    container: {
+        flex: 1,
         justifyContent: "center",
-        padding: 20
+        padding: 20,
+        backgroundColor:"#153448"
+    },
+    logo: {
+        width: 150,
+        height: 150,
+        marginBottom: 20,
+        alignSelf:"center",
+        borderRadius:100
     },
     loginText: {
-        fontSize: 24,
+        textAlign: "center",
+        marginBottom: 20,
+        padding:40,
         fontWeight: "bold",
-        marginBottom: 20
+        fontSize:40,
+        color: "#FF6500",
+
     },
-    textFields :{
-        borderWidth: 1,
-        padding: 10,
-        marginBottom : 10
+    input: {
+        marginBottom: 15,
+
+    },
+    loginButton: {
+        marginTop: 10,
+        color: "#007bff",
+        backgroundColor: "#FF6500",
     },
     signUpContainer: {
         flexDirection: "row",
         justifyContent: "center",
-        marginTop: 10
+        marginTop: 10,
+        alignItems: "center",
     },
-    signUpText: {
-        color: 'blue',
-        fontSize: 14
-    }
 });

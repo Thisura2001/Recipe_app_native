@@ -4,7 +4,7 @@ import { TextInput, Button } from "react-native-paper";
 import {router} from "expo-router";
 
 const SignupScreen = () => {
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
@@ -23,8 +23,8 @@ const SignupScreen = () => {
                 <Text style={styles.title}>Create Account..👨‍💻</Text>
                 <TextInput
                     label="Email"
-                    value={email}
-                    onChangeText={setEmail}
+                    value={username}
+                    onChangeText={setUsername}
                     keyboardType="email-address"
                     style={styles.input}
                     left={<TextInput.Icon icon="email" />}
@@ -44,7 +44,7 @@ const SignupScreen = () => {
                     }
                 />
                 <Button mode="contained" onPress={handleSignup} style={styles.button}>
-                    Sign Up
+                    SIGN UP
                 </Button>
                 <TouchableOpacity onPress={navigateLog}>
                     <Text style={styles.loginText}>Already have an account? Log In</Text>
@@ -59,20 +59,21 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         padding: 20,
-        backgroundColor: "#f5f5f5",
+        backgroundColor: "#2C4E80",
     },
     logo: {
         width: 200,
         height: 200,
         marginBottom: 20,
-        marginLeft: 120,
+        alignSelf:"center",
+        borderRadius:100
     },
     title: {
         fontSize: 30,
         fontWeight: "bold",
         textAlign: "center",
         marginBottom: 20,
-        color: "#7E5CAD",
+        color: "#FF6500",
     },
     input: {
         marginBottom: 15,
@@ -80,11 +81,12 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 10,
+        backgroundColor: "#FF6500",
     },
     loginText: {
         textAlign: "center",
         marginTop: 15,
-        color: "#007bff",
+        color: "#ffffff",
     },
 });
 
