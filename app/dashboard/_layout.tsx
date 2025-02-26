@@ -23,7 +23,7 @@ export default function Dashboard() {
                         }
                         return <Ionicons name={iconName} size={size} color={color} />;
                     },
-                    tabBarActiveTintColor: "blue",
+                    tabBarActiveTintColor: "#667BC6",
                     tabBarInactiveTintColor: "gray",
                     tabBarShowLabel: false,
                 })}

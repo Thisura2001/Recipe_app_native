@@ -19,6 +19,17 @@ export const saveMeal = createAsyncThunk(
         }
     }
 )
+export const getAllMeal = createAsyncThunk(
+    'meal/getAllMeal',
+    async ()=>{
+        try {
+            const response = await api.get('/');
+            return response.data;
+        }catch (e){
+            console.log(e)
+        }
+    }
+)
 
 const mealSlice = createSlice({
     name:'meal',
@@ -28,6 +39,9 @@ const mealSlice = createSlice({
         builder.addCase(saveMeal.fulfilled, (state, action: PayloadAction<Meal>) => {
             state.push(action.payload);
         });
+        builder.addCase(getAllMeal.fulfilled,(state,action)=>{
+            return action.payload
+        })
     },
 })
 export default mealSlice.reducer;
