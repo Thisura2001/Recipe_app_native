@@ -16,6 +16,7 @@ export default function SaveMeal() {
     }, [dispatch]);
 
     function handleDelete(name: string) {
+        console.log("Meal name is: ", name);
         dispatch(deleteMeal(name)).then(()=>{
             console.log("Deleting Meal");
             setSnackbarVisible(true);
