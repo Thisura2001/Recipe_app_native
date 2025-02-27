@@ -8,7 +8,7 @@ import Meal from "../../Modal/MealModal";
 
 export default function SaveMeal() {
     const dispatch = useDispatch<AppDispatch>();
-    const meals = useSelector((state) => state.meals || []);
+    const meals = useSelector((state) => state.meals);
     const [snackbarVisible, setSnackbarVisible] = useState(false);
 
     useEffect(() => {
