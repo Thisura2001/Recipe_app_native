@@ -30,7 +30,8 @@ export default function SaveMeal() {
                     <Image source={{ uri: meal.image }} style={styles.image} />
                     <View style={styles.cardContent}>
                         <Text style={styles.mealName}>{meal.name}</Text>
-                        <Text style={styles.mealArea}>{meal.area}</Text>
+                        <Text style={styles.mealArea}>{meal.area +" Food"}</Text>
+                        <Text style={styles.recipe}>Recipe</Text>
                         <Text style={styles.mealDescription}>
                             {meal.instructions.split('.').map((instruction, index) => (
                                 instruction.trim() !== "" && (
@@ -77,6 +78,11 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         elevation: 5,
     },
+    recipe:{
+        fontWeight: "bold",
+        fontSize: 18,
+        color: "#ff5c5c",
+    },
     image: {
         width: "100%",
         height: 200,
@@ -93,7 +99,7 @@ const styles = StyleSheet.create({
     mealArea:{
         fontSize: 16,
         padding:10,
-        color: "#ff5c5c",
+        color: "#807a7a",
     },
     mealDescription: {
         fontSize: 14,
