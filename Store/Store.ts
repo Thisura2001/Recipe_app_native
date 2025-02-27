@@ -3,7 +3,8 @@ import MealSlice from "../Reducers/MealSlice";
 
 export const store = configureStore({
     reducer: {
-        meals : MealSlice
+        meals : MealSlice,
+        users : UserSlice,
     }
 });
 export type AppDispatch = typeof store.dispatch;
