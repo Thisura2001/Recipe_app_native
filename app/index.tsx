@@ -26,10 +26,9 @@ export default function LoginScreen() {
                 setAlertMessage("Login successfully !!");
                 setShowAlert(true);
 
-                // Wait for a short delay before navigating
                 setTimeout(() => {
                     router.replace('/dashboard');
-                }, 1500); // Adjust timing if needed
+                }, 2000);
             })
             .catch(err => {
                 console.log(err);
