@@ -24,7 +24,7 @@ export const registerUser = createAsyncThunk(
         }
     }
 )
-const loginUser = createAsyncThunk(
+export const loginUser = createAsyncThunk(
     'user/login',
     async (user : User)=>{
         try{

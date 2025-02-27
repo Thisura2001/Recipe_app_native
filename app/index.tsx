@@ -2,17 +2,40 @@ import React, { useState } from "react";
 import {View, StyleSheet, Image} from "react-native";
 import { Text, TextInput, Button } from "react-native-paper";
 import { useRouter } from "expo-router";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../Store/Store";
+import {User} from "../Modal/User";
+import {loginUser} from "../Reducers/UserSlice";
+import AwesomeAlert from "react-native-awesome-alerts";
 
 export default function LoginScreen() {
     const router = useRouter();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("");
+
+    const dispatch = useDispatch<AppDispatch>();
 
     function handleLogin() {
-        if (username === "User" && password === "user") {
-            router.replace("/dashboard");
-        }
+        const user: User = { username, password };
+
+        dispatch(loginUser(user))
+            .then(() => {
+                setAlertMessage("Login successfully !!");
+                setShowAlert(true);
+
+                // Wait for a short delay before navigating
+                setTimeout(() => {
+                    router.replace('/dashboard');
+                }, 1500); // Adjust timing if needed
+            })
+            .catch(err => {
+                console.log(err);
+                setAlertMessage("Something went wrong !!");
+                setShowAlert(true);
+            });
     }
 
     function handleSignUp() {
@@ -54,6 +77,18 @@ export default function LoginScreen() {
                     Sign Up
                 </Button>
             </View>
+            <AwesomeAlert
+                show={showAlert}
+                showProgress={false}
+                title={"Notification"}
+                message={alertMessage}
+                closeOnTouchOutside={true}
+                closeOnHardwareBackPress={false}
+                showConfirmButton={true}
+                confirmText="OK"
+                confirmButtonColor="#FF6500"
+                onConfirmPressed={() => setShowAlert(false)}
+            />
         </View>
     );
 }
