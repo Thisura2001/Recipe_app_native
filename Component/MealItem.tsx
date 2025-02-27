@@ -88,7 +88,7 @@ const formatInstructions = (instructions: string) => {
     return instructions
         .split(".")
         .filter((step) => step.trim().length > 0)
-        .map((step, index) => `• ${step.trim()}.`);
+        .map((step, index) => `📍 ${step.trim()}.`);
 };
 
 export default MealItem;
